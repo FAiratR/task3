@@ -11,7 +11,7 @@ public class Main {
         for (int i = 0; i < 10; i++) {
             Runnable task = () -> {
                 try {
-                    Thread.sleep(1300);
+                    Thread.sleep(1000);
                     System.out.println("Задача исполнена");
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -20,16 +20,21 @@ public class Main {
 
             System.out.println("Задачу " + i + " ставим в очередь на исполнение");
             myThreadPool.execute(task);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         // остановим исполнение
         myThreadPool.shutdown();
 
-        // Эта задача в пул уже не попадет, т.к. был shutdown
+        // Эти задачи в пул уже не попадут, т.к. был shutdown
         for (int i = 0; i < 1; i++) {
             Runnable task = () -> {
                 try {
-                    Thread.sleep(1300);
+                    Thread.sleep(100);
                     System.out.println("Задача исполнена");
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
